@@ -62,11 +62,13 @@
           Department
         </label>
         <select name="department" id="department" [(ngModel)]="department" class="form-control">
-          <option value="1">Help Desk</option>
-          <option value="2">HR</option>
-          <option value="3">IT</option>
-          <option value="4">CEO</option>
+          <option *ngFor="let dept of departments" [value]="dept.id">{{dept.name}}</option>
         </select>
+      </div>
+
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input type="text" bsDatepicker name="dateOfBirth" [(ngModel)]="dateOfBirth" id="dateOfBirth" class="form-control">
       </div>
     </div>
     <div class="panel-footer">
