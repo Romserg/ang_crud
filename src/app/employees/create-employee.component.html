@@ -113,12 +113,11 @@
         <img [src]="employee.photoPath" height="200" width="200" *ngIf="previewPhoto"/>
       </div>
 
-      <div ngModelGroup="passwordGroup"
-           [class.has-error]="confirmPassword.touched && confirmPassword.invalid && !confirmPassword.errors?.required">
+      <div ngModelGroup="passwordGroup" appConfirmEqualValidator #passwordGroup="ngModelGroup"
+           [class.has-error]="passwordGroup.errors?.notEqual && !confirmPassword.errors?.required">
         <div class="form-group" [class.has-error]="password.touched && password.invalid">
           <label for="password" class="control-label">Password</label>
           <input name="password" id="password" required type="text" class="form-control"
-                 (input)="confirmPassword.control.updateValueAndValidity()"
                  [(ngModel)]="employee.password" #password="ngModel">
           <span class="help-block" *ngIf="password.touched && password.errors?.required">
           Password is required
@@ -128,14 +127,14 @@
         <div class="form-group"
              [class.has-error]="confirmPassword.touched && confirmPassword.invalid">
           <label for="confirmPassword" class="control-label">Password</label>
-          <input name="confirmPassword" appConfirmEqualValidator="password" id="confirmPassword" required type="text"
+          <input name="confirmPassword" id="confirmPassword" required type="text"
                  class="form-control"
                  [(ngModel)]="employee.confirmPassword" #confirmPassword="ngModel">
           <span class="help-block" *ngIf="confirmPassword.touched && confirmPassword.errors?.required">
           Confirm Password is required
         </span>
           <span class="help-block"
-                *ngIf="confirmPassword.touched && confirmPassword.errors?.notEqual && !confirmPassword.errors?.required">
+                *ngIf="confirmPassword.touched && passwordGroup.errors?.notEqual && !confirmPassword.errors?.required">
           Password and Confirm Password does not match
         </span>
         </div>
@@ -151,4 +150,4 @@
 Angular Generated Form Model: {{employeeForm.value | json}}
 <br>
 <br>
-Angular Generated Form Model: {{employee | json}}
+Employee Model: {{employee | json}}
