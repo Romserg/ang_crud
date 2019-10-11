@@ -38,8 +38,13 @@ export class EmployeeService {
       photoPath: 'assets/images/3.png'
     }
   ];
+
   getEmployees(): Employee[] {
     return this.listEmployees;
+  }
+
+  getEmployeeById(id: number): Employee {
+    return this.listEmployees.find(e => e.id === id);
   }
 
   save(employee: Employee) {
