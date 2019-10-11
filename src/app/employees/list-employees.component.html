@@ -1,6 +1,3 @@
-<h1 #h1Vairable></h1>
 <div *ngFor="let employee of employees">
-  <div (click)="h1Vairable.innerHTML = childComponent.getEmployeeNameAndGender()">
     <app-display-employee [employee]="employee" #childComponent></app-display-employee>
-  </div>
 </div>
