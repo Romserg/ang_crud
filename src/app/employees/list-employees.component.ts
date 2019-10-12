@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 })
 export class ListEmployeesComponent implements OnInit {
   employees: Employee[];
-
+  searchTerm: string;
   constructor(private _employeeService: EmployeeService, private _router: Router) {
   }
 
