@@ -31,10 +31,10 @@ export class ListEmployeesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.employees = this._employeeService.getEmployees();
-    this._route.queryParamMap.subscribe(queryParams => {
-      if (queryParams.has('searchTerm')) {
-        this.searchTerm = queryParams.get('searchTerm')
+    this._employeeService.getEmployees().subscribe(employeeList => {
+      this.employees = employeeList;
+      if(this._route.snapshot.queryParamMap.has('searchTerm')){
+        this.searchTerm = this._route.snapshot.queryParamMap.get('searchTerm')
       } else {
         this.filteredEmployees = this.employees;
       }
