@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { EmployeeService } from "./employee.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   templateUrl: './list-employees.component.html',
@@ -27,12 +27,18 @@ export class ListEmployeesComponent implements OnInit {
     })
   }
 
-  constructor(private _employeeService: EmployeeService, private _router: Router) {
+  constructor(private _employeeService: EmployeeService, private _router: Router, private _route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.employees = this._employeeService.getEmployees();
-    this.filteredEmployees = this.employees;
+    this._route.queryParamMap.subscribe(queryParams => {
+      if (queryParams.has('searchTerm')) {
+        this.searchTerm = queryParams.get('searchTerm')
+      } else {
+        this.filteredEmployees = this.employees;
+      }
+    });
   }
 
   changeEmployeeName() {
