@@ -3,7 +3,7 @@ import { Department } from '../models/department.model';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { Employee } from '../models/employee.model';
 import { EmployeeService } from "./employee.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 
 @Component({
@@ -12,21 +12,11 @@ import { NgForm } from "@angular/forms";
   styleUrls: ['./create-employee.component.css']
 })
 export class CreateEmployeeComponent implements OnInit {
-  @ViewChild('employeeForm', {static: false}) public createEmployeeForm: NgForm;
+  @ViewChild('employeeForm', {static: true}) public createEmployeeForm: NgForm;
   previewPhoto = false;
+  panelTitle: string;
   datePickerConfig: Partial<BsDatepickerConfig>;
-  employee: Employee = {
-    id: null,
-    name: null,
-    gender: null,
-    contactPreference: null,
-    phoneNumber: null,
-    email: '',
-    dateOfBirth: null,
-    department: 'select',
-    isActive: null,
-    photoPath: null
-  };
+  employee: Employee;
   departments: Department[] = [
     {id: 1, name: 'Help Desk'},
     {id: 2, name: 'HR'},
@@ -35,7 +25,9 @@ export class CreateEmployeeComponent implements OnInit {
     {id: 5, name: 'Admin'},
   ];
 
-  constructor(private _employeeService: EmployeeService, private _router:Router) {
+  constructor(private _employeeService: EmployeeService,
+              private _router:Router,
+              private _route: ActivatedRoute) {
     this.datePickerConfig = Object.assign({},
       {
         containerClass: 'theme-dark-blue',
@@ -44,6 +36,32 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._route.paramMap.subscribe(parameterMap => {
+      const id = +parameterMap.get('id');
+      this.getEmployee(id);
+    })
+  }
+
+  private getEmployee(id: number) {
+    if(id === 0) {
+      this.employee = {
+        id: null,
+        name: null,
+        gender: null,
+        contactPreference: null,
+        phoneNumber: null,
+        email: '',
+        dateOfBirth: null,
+        department: 'select',
+        isActive: null,
+        photoPath: null
+      };
+      this.panelTitle = 'Create Employee';
+      this.createEmployeeForm.reset();
+    } else {
+      this.panelTitle = 'Edit Employee';
+      this.employee = {...this._employeeService.getEmployeeById(id)};
+    }
   }
 
   saveEmployee(): void {
