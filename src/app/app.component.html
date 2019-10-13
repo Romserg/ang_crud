@@ -9,5 +9,15 @@
       </li>
     </ul>
   </nav>
-<router-outlet></router-outlet>
+  <div *ngIf="showLoadingIndicator" class="lds-roller">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <router-outlet></router-outlet>
 </div>
