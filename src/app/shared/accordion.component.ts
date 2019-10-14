@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class AccordionComponent implements OnInit {
   @Input() hasJustViewed: boolean;
   @Input() title: string;
-  @Input() isHidden: false;
+  @Input() isHidden = false;
 
   constructor() {
   }
