@@ -18,6 +18,7 @@ import { EmployeeFilterPipe } from "./employees/employee-filter.pipe";
 import { EmployeeListResolverService } from "./employees/employee-list-resolver.service";
 import { PageNotFoundComponent } from './page-not-found.component';
 import { EmployeeDetailGuard } from "./employees/employee-detail.guard";
+import { AccordionComponent } from './shared/accordion.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/list', pathMatch: 'full'},
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     DisplayEmployeeComponent,
     EmployeeDetailsComponent,
     EmployeeFilterPipe,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AccordionComponent
   ],
   imports: [
     BrowserModule,
