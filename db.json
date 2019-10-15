@@ -13,14 +13,15 @@
     },
     {
       "id": 2,
-      "name": "Mary",
+      "name": "Sara",
       "gender": "Female",
-      "contactPreference": "Phone",
-      "phoneNumber": "2345978640",
+      "contactPreference": "Email",
+      "phoneNumber": "",
       "dateOfBirth": "11/20/1979",
       "department": "2",
       "isActive": true,
-      "photoPath": "assets/images/2.png"
+      "photoPath": "assets/images/2.png",
+      "email": "sara@test.com"
     },
     {
       "id": 3,
@@ -28,7 +29,7 @@
       "gender": "Male",
       "contactPreference": "Phone",
       "phoneNumber": "5432978640",
-      "dateOfBirth":"3/25/1976",
+      "dateOfBirth": "3/25/1976",
       "department": "3",
       "isActive": false,
       "photoPath": "assets/images/3.png"

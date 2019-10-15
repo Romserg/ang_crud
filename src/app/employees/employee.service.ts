@@ -1,13 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Employee } from "../models/employee.model";
 import { Observable, throwError } from "rxjs";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class EmployeeService {
   constructor(private http: HttpClient) {
   }
+
+  private baseUrl = 'http://localhost:3000/employees';
 
   private listEmployees: Employee[] = [
     {
@@ -58,28 +60,33 @@ export class EmployeeService {
   }
 
   getEmployees(): Observable<Employee[]> {
-    const uri = 'http://localhost:3000/employees';
-    return this.http.get<Employee[]>(uri)
+    return this.http.get<Employee[]>(this.baseUrl)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getEmployeeById(id: number): Employee {
-    return this.listEmployees.find(e => e.id === id);
+  getEmployeeById(id: number): Observable<Employee> {
+    return this.http.get<Employee>(`${this.baseUrl}/${id}`)
+      .pipe(catchError(this.handleError));
   }
 
-  save(employee: Employee) {
-    if (employee.id === null) {
-      const maxId = this.listEmployees.reduce((e1, e2) => {
-        return e1.id > e2.id ? e1 : e2;
-      }).id;
-      employee.id = maxId + 1;
-      this.listEmployees.push(employee);
-    } else {
-      const foundIndex = this.listEmployees.findIndex(e => e.id === employee.id);
-      this.listEmployees[foundIndex] = employee;
-    }
+  addEmployee(employee: Employee): Observable<Employee> {
+    return this.http.post<Employee>(this.baseUrl, employee, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    })
+      .pipe(catchError(this.handleError));
+  }
+
+  updateEmployee(employee: Employee): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${employee.id}`, employee, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    })
+      .pipe(catchError(this.handleError));
   }
 
   deleteEmployee(id) {

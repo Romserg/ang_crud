@@ -26,7 +26,7 @@ export class CreateEmployeeComponent implements OnInit {
   ];
 
   constructor(private _employeeService: EmployeeService,
-              private _router:Router,
+              private _router: Router,
               private _route: ActivatedRoute) {
     this.datePickerConfig = Object.assign({},
       {
@@ -43,7 +43,7 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   private getEmployee(id: number) {
-    if(id === 0) {
+    if (id === 0) {
       this.employee = {
         id: null,
         name: null,
@@ -60,15 +60,29 @@ export class CreateEmployeeComponent implements OnInit {
       this.createEmployeeForm.reset();
     } else {
       this.panelTitle = 'Edit Employee';
-      this.employee = {...this._employeeService.getEmployeeById(id)};
+      this._employeeService.getEmployeeById(id).subscribe(
+        employee => this.employee = employee,
+        (err: any) => console.log(err));
     }
   }
 
   saveEmployee(): void {
-    const newEmployee = {...this.employee};
-    this._employeeService.save(newEmployee);
-    this.createEmployeeForm.reset();
-    this._router.navigate(['list'])
+    if (this.employee.id === null) {
+      this._employeeService.addEmployee(this.employee).subscribe(
+        (data: Employee) => {
+          this.createEmployeeForm.reset();
+          this._router.navigate(['list'])
+        },
+        (error: any) => console.log(error));
+    } else {
+      this._employeeService.updateEmployee(this.employee).subscribe(
+        () => {
+          this.createEmployeeForm.reset();
+          this._router.navigate(['list'])
+        },
+        (error: any) => console.log(error));
+    }
+
   }
 
   togglePhotoPreview() {
