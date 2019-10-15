@@ -13,13 +13,13 @@ import { SelectRequiredValidatorDirective } from "./shared/select-required-valid
 import { ConfirmEqualValidatorDirective } from "./shared/confirm-equal-validator.directive";
 import { EmployeeService } from "./employees/employee.service";
 import { DisplayEmployeeComponent } from './employees/display-employee.component';
-import { CreateEmployeeCanDeactivateGuardService } from "./employees/create-employee-can-deactivate-guard.service";
 import { EmployeeDetailsComponent } from './employees/employee-details.component';
 import { EmployeeFilterPipe } from "./employees/employee-filter.pipe";
 import { EmployeeListResolverService } from "./employees/employee-list-resolver.service";
 import { PageNotFoundComponent } from './page-not-found.component';
 import { EmployeeDetailGuard } from "./employees/employee-detail.guard";
 import { AccordionComponent } from './shared/accordion.component';
+import { CreateEmployeeCanDeactivateGuard } from "./employees/create-employee-can-deactivate.guard";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/list', pathMatch: 'full'},
@@ -31,7 +31,7 @@ const appRoutes: Routes = [
   {
     path: 'edit/:id',
     component: CreateEmployeeComponent,
-    canDeactivate: [CreateEmployeeCanDeactivateGuardService]
+    canDeactivate: [CreateEmployeeCanDeactivateGuard]
   },
   {path: 'employees/:id', component: EmployeeDetailsComponent, canActivate: [EmployeeDetailGuard]},
   {path: 'notfound', component: PageNotFoundComponent}
@@ -58,7 +58,7 @@ const appRoutes: Routes = [
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [EmployeeService, CreateEmployeeCanDeactivateGuardService, EmployeeListResolverService],
+  providers: [EmployeeService,  EmployeeListResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
